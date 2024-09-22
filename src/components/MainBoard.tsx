@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from 'react'
+import { useLayoutEffect, useState, useEffect } from 'react'
 import { IonToast } from '@ionic/react'
 import { isDesktop } from 'react-device-detect'
 import { IoAlertCircleOutline } from 'react-icons/io5'
@@ -8,6 +8,10 @@ import styles from './MainBoard.module.scss'
 import { TabHeader } from './utilParts/TabHeader'
 import { Column, DrillContent, Id } from './../types/types'
 import { useStorage } from '../hooks/useStorage'
+
+import { useAuth } from '@clerk/clerk-react';
+
+const API_URL = 'http://localhost:8787'; // HonoのAPIサーバーのURL
 
 const PresetColumns: Column[] = [
   {
@@ -23,6 +27,35 @@ const PresetColumns: Column[] = [
 export const MainBoard = () => {
   const [columns] = useState<Column[]>(PresetColumns)
   const [isToastOpen, setIsTostOpen] = useState(false)
+
+
+  const [data, setData] = useState(null);
+  const { getToken } = useAuth();
+
+  // API related
+  useEffect(() => {
+
+    const fetchData = async () => {
+      const token = await getToken();
+      const response = await fetch(`${API_URL}/api/protected`, {
+        mode: 'cors',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'content-type':'application/json'
+        },
+        credentials:"include" // include, same-origin, omit
+      });
+      const data = await response.json();
+      setData(data);
+
+    }
+
+    fetchData();
+  }, []);
+
+
+
+
 
   // storage related
   const {

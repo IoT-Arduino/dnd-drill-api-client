@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import { GrDomain } from 'react-icons/gr'
 import { SiDatabricks } from 'react-icons/si'
 
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react'
+
 type ActiveTab = 'main' | 'history'
 
 export const TabHeader = () => {
@@ -40,6 +42,14 @@ export const TabHeader = () => {
           <SiDatabricks style={{ marginRight: '8px' }} />
           履歴
         </p>
+
+        <SignedOut>
+          <SignInButton />
+        </SignedOut>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+
       </div>
     </div>
   )
