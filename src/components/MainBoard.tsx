@@ -36,14 +36,21 @@ export const MainBoard = () => {
   useEffect(() => {
 
     const fetchData = async () => {
-      const token = await getToken();
-      const response = await fetch(`${API_URL}/api/protected`, {
+      const response = await fetch(`${API_URL}/api/drills`, {
+        method:"GET",
         mode: 'cors',
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'content-type':'application/json'
+          'Authorization': `Bearer ${await getToken()}`,
+          'content-type': 'application/json'
         },
-        credentials:"include" // include, same-origin, omit
+        // credentials: "same-origin" // include, same-origin, omit　 --> コメントアウトしないとCORSエラーになる。
+
+        // body: JSON.stringify({ 
+        //   columnId: '2',
+        //   content: "content532",
+        //   status:true
+        //  }),
+        
       });
       const data = await response.json();
       setData(data);
@@ -53,8 +60,7 @@ export const MainBoard = () => {
     fetchData();
   }, []);
 
-
-
+  console.log(data)
 
 
   // storage related
