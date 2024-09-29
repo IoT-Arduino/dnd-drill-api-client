@@ -6,6 +6,19 @@
   padding: 32px;
 }
 
+.history-memo-title {
+  font-weight: bold;
+}
+
+.history-memo-content {
+  padding-left: 16px;
+}
+
+.history-drill-title {
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
 .history-item {
   border: 1px solid $borderColor;
   margin: 16px;
@@ -19,7 +32,7 @@
 }
 
 .history-list {
-  margin: 0;
+  margin-top: 8px;
   padding: 0;
 
   &-item {
