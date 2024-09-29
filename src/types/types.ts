@@ -5,6 +5,13 @@ export type Column = {
   title: string
 }
 
+export type Drill = {
+  id: Id
+  columnId: Id
+  content: DrillContent
+  status: boolean
+}
+
 export type DrillContent = {
   text: string
   url?: string
