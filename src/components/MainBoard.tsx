@@ -8,6 +8,7 @@ import styles from './MainBoard.module.scss'
 import { TabHeader } from './utilParts/TabHeader'
 import { Column, DrillContent, Id } from './../types/types'
 import { useStorage } from '../hooks/useStorage'
+import { useDrillsApi } from '../hooks/useDrillsApi'
 
 import { useAuth } from '@clerk/clerk-react';
 
@@ -28,54 +29,61 @@ export const MainBoard = () => {
   const [columns] = useState<Column[]>(PresetColumns)
   const [isToastOpen, setIsTostOpen] = useState(false)
 
-
-  const [data, setData] = useState(null);
+  // const [data, setData] = useState(null);
   const { getToken } = useAuth();
 
   // API related
-  useEffect(() => {
-
-    const fetchData = async () => {
-      const response = await fetch(`${API_URL}/api/drills`, {
-        method:"GET",
-        mode: 'cors',
-        headers: {
-          'Authorization': `Bearer ${await getToken()}`,
-          'content-type': 'application/json'
-        },
-        // credentials: "same-origin" // include, same-origin, omit　 --> コメントアウトしないとCORSエラーになる。
-
-        // body: JSON.stringify({ 
-        //   columnId: '2',
-        //   content: "content532",
-        //   status:true
-        //  }),
-        
-      });
-      const data = await response.json();
-      setData(data);
-
-    }
-
-    fetchData();
-  }, []);
-
-  console.log(data)
-
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await fetch(`${API_URL}/api/drills`, {
+  //       method:"GET",
+  //       mode: 'cors',
+  //       headers: {
+  //         'Authorization': `Bearer ${await getToken()}`,
+  //         'content-type': 'application/json'
+  //       },
+  //       // credentials: "same-origin" // include, same-origin, omit　 --> コメントアウトしないとCORSエラーになる。        
+  //     });
+  //     const data = await response.json();
+  //     setData(data);
+  //   }
+  //   fetchData();
+  // }, []);
 
   // storage related
   const {
     drills,
-    createDrillOnStorage,
-    deleteDrillOnStorage,
-    updateDrillOnStorage,
-    updateDrillColumnIdOnStorage,
-    updateDrillStatusOnStorage,
-    moveDrillsOnSubmit,
+    drillHistory,
+    isLoading,
+    error,
     submitButtonEnabled,
     setSubmitButtonEnabled,
-    saveTodaysDrill
-  } = useStorage()
+    createDrillOnApi,
+    deleteDrillOnApi,
+    updateDrillOnApi,
+    updateDrillColumnIdOnApi,
+    updateDrillStatusOnApi,
+    moveDrillsOnSubmit,
+    saveTodaysDrill,
+    fetchDrills,
+    fetchHistory
+  } = useDrillsApi();
+
+
+  // console.log("drillsApi", drills)
+
+  // const {
+  //   drills,
+  //   createDrillOnStorage,
+  //   deleteDrillOnStorage,
+  //   updateDrillOnStorage,
+  //   updateDrillColumnIdOnStorage,
+  //   updateDrillStatusOnStorage,
+  //   moveDrillsOnSubmit,
+  //   submitButtonEnabled,
+  //   setSubmitButtonEnabled,
+  //   saveTodaysDrill
+  // } = useStorage()
 
   const [widthSmall, setWidthSmall] = useState(false)
   useLayoutEffect(() => {
@@ -94,32 +102,43 @@ export const MainBoard = () => {
   const drillItemsCheckedFiltered = drills.filter((drill) => drill.columnId === 'drill' && drill.status === true)
   const drillItemsChecked = drillItemsCheckedFiltered.map((item) => ({ id: item.id, content: item.content }))
 
+  // console.log("drills",drills)
+
+  // console.log("drillItemsCheckedFiltered", drillItemsCheckedFiltered)
+  // console.log("drillItemsChecked", drillItemsChecked)
+
   const createDrill = async (columnId: Id, content: DrillContent) => {
-    await createDrillOnStorage(columnId, content)
+    await createDrillOnApi(columnId, content)
+    // await createDrillOnStorage(columnId, content)
   }
 
   const deleteDrill = async (id: Id) => {
-    await deleteDrillOnStorage(id)
+    await deleteDrillOnApi(id)
+    // await deleteDrillOnStorage(id)
   }
 
   const updateDrill = async (id: Id, content: DrillContent) => {
-    await updateDrillOnStorage(id, content)
+    await updateDrillOnApi(id, content)
+    // await updateDrillOnStorage(id, content)
   }
 
   const updateDrillColumnId = async (id: Id, columnId: string) => {
-    await updateDrillColumnIdOnStorage(id, columnId)
+    await updateDrillColumnIdOnApi(id, columnId)
+    // await updateDrillColumnIdOnStorage(id, columnId)
   }
 
   const updateDrillStatus = async (id: Id, status: boolean) => {
-    await updateDrillStatusOnStorage(id, status)
+    await updateDrillStatusOnApi(id, status)
+    // await updateDrillStatusOnStorage(id, status)
   }
 
   const submitDrill = (todayMemo: string) => {
+    console.log("submitDrill", drillItemsChecked.map(item => item.content))
     // チェック済みのドリル項目を送信する
     const submitObject = {
       date: today,
       memo: todayMemo,
-      drillItemsChecked
+      drillItemsChecked:drillItemsChecked
     }
     // console.log(submitObject)
     saveTodaysDrill(submitObject)
@@ -143,8 +162,12 @@ export const MainBoard = () => {
       )}
 
       <div className={isDesktop ? `${styles['main-wrapper']} ${styles['desktop']}` : styles['main-wrapper']}>
-        {columns.map((col) => {
-          return (
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : error ? (
+          <div>Error: {error}</div>
+        ) : (
+          columns.map((col) => (
             <ColumnContainer
               key={col.id}
               column={col}
@@ -157,8 +180,8 @@ export const MainBoard = () => {
               updateDrillColumnId={updateDrillColumnId}
               submitDrill={submitDrill}
             />
-          )
-        })}
+          ))
+        )}
       </div>
 
       <IonToast

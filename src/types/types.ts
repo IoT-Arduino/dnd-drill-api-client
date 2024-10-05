@@ -12,6 +12,8 @@ export type Drill = {
   status: boolean
 }
 
+export type DrillWithoutId = Omit<Drill, 'id'>
+
 export type DrillContent = {
   text: string
   url?: string

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useStorage } from '../../hooks/useStorage'
 import { useAuth } from '@clerk/clerk-react';
 
@@ -10,6 +10,11 @@ import { TabHeader } from '../utilParts/TabHeader'
 import styles from './History.module.scss'
 
 type DrillHistory = DrillHistoryItem[] | null;
+
+type DrillItem = {
+  text: string;
+  url: string;
+};
 
 export const History = () => {
   // const { drillHistory } = useStorage()
@@ -32,15 +37,19 @@ export const History = () => {
         // credentials: "same-origin" // include, same-origin, omit　 --> コメントアウトしないとCORSエラーになる。
       });
       const data = await response.json();
-      setDrillHistory(data);
 
+      const parsedDrillHistory = data?.map((drill: { drills: unknown; }) => {
+        const drills = JSON.parse(drill.drills as unknown as string) as DrillItem[];
+        return {
+          ...drill,
+          drills
+        };
+      });
+
+      setDrillHistory(parsedDrillHistory);
     }
-
     fetchData();
   }, []);
-
-  console.log("drillhistory", drillHistory)
-
 
   return (
     <>
@@ -49,7 +58,7 @@ export const History = () => {
         <div className={styles['history-wrapper']}>
           {drillHistory.length > 0 ? (
             drillHistory.map((drill) => (
-              <>
+              <React.Fragment key={drill.id}>
                 <div className={styles['history-date']}>
                   {new Date(drill.createdAt).toLocaleDateString('ja-JP', {
                     year: 'numeric',
@@ -68,14 +77,17 @@ export const History = () => {
 
                   <div className={styles['history-list']}>
                     <div className={styles['history-drill-title']}>今日実施したドリル</div>
-                    {(JSON.parse(drill.drills as unknown as string) as string[]).map((drillItem, index) => (
+                    {(drill.drills as unknown as DrillItem[]).map((drillItem, index) => (
                       <div key={index} className={styles['history-list-item']}>
-                        {drillItem}
+                        <>
+                          <span>{drillItem.text}</span>
+                          <a href={drillItem.url}>Link</a>
+                        </>
                       </div>
                     ))}
                   </div>
                 </div>
-              </>
+              </React.Fragment>
             ))
           ) : (
             <div className={styles['history-nodata']}>

@@ -42,6 +42,11 @@
     border-radius: 6px;
     background-color: #e7f3e7;
   }
+
+  &-item > a {
+    text-decoration: none;
+    padding-left: 8px;
+  }
 }
 
 .history-nodata {

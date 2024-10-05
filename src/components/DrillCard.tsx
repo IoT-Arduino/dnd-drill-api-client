@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { IonIcon, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel } from '@ionic/react'
 import {
   archive,
@@ -21,7 +21,7 @@ type Props = {
   drill: Drill
   deleteDrill: (id: Id) => void
   updateDrill: (id: Id, content: DrillContent) => void
-  updateDrillStatus: (id: Id, status: boolean) => void
+  updateDrillStatus: (id: Id, status: boolean) => boolean
   columnId?: 'drill' | 'stock'
   updateDrillColumnId: (id: Id, columnId: string) => void
 }
@@ -34,7 +34,7 @@ export const DrillCard = ({
   columnId,
   updateDrillColumnId
 }: Props) => {
-  const [drillComplete, setDrillComplete] = useState<boolean>(false)
+  const [drillComplete, setDrillComplete] = useState<boolean>(drill.status)
   const [editDrillContent, setEditDrillContent] = useState<DrillContent>(drill.content)
   const [openEditDialog, setOpenEditDialog] = useState<boolean>(false)
 
