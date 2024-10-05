@@ -10,7 +10,7 @@ import { Column, DrillContent, Id } from './../types/types'
 import { useStorage } from '../hooks/useStorage'
 import { useDrillsApi } from '../hooks/useDrillsApi'
 
-import { useAuth } from '@clerk/clerk-react';
+// import { useAuth } from '@clerk/clerk-react';
 
 const API_URL = 'http://localhost:8787'; // HonoのAPIサーバーのURL
 
@@ -30,7 +30,7 @@ export const MainBoard = () => {
   const [isToastOpen, setIsTostOpen] = useState(false)
 
   // const [data, setData] = useState(null);
-  const { getToken } = useAuth();
+  // const { getToken } = useAuth();
 
   // API related
   // useEffect(() => {
@@ -69,8 +69,6 @@ export const MainBoard = () => {
     fetchHistory
   } = useDrillsApi();
 
-
-  // console.log("drillsApi", drills)
 
   // const {
   //   drills,
