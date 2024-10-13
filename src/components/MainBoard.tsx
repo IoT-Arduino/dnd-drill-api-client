@@ -12,7 +12,7 @@ import { useDrillsApi } from '../hooks/useDrillsApi'
 
 // import { useAuth } from '@clerk/clerk-react';
 
-const API_URL = 'http://localhost:8787'; // HonoのAPIサーバーのURL
+// const API_URL = 'http://localhost:8787'; // HonoのAPIサーバーのURL
 
 const PresetColumns: Column[] = [
   {

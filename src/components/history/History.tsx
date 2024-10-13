@@ -3,7 +3,7 @@ import { useStorage } from '../../hooks/useStorage'
 import { useAuth } from '@clerk/clerk-react';
 
 import { DrillHistoryItem } from '../../types/types'
-
+import { API_BASE_URL } from '../../consts/const';
 
 import { TabHeader } from '../utilParts/TabHeader'
 
@@ -22,12 +22,12 @@ export const History = () => {
   const [drillHistory, setDrillHistory] = useState<DrillHistory>(null);
   const { getToken } = useAuth();
 
-  const API_URL = 'http://localhost:8787'; // HonoのAPIサーバーのURL
+  // const API_URL = 'http://localhost:8787'; // HonoのAPIサーバーのURL
 
   // API related
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`${API_URL}/api/history`, {
+      const response = await fetch(`${API_BASE_URL}/history`, {
         method: "GET",
         mode: 'cors',
         headers: {

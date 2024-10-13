@@ -1,9 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Id, Drill, TodaysDrill, DrillContent, DrillWithoutId } from './../types/types';
-import { SAVE_DRILLS_LENGTH } from '../consts/const';
+import { SAVE_DRILLS_LENGTH, API_BASE_URL } from '../consts/const';
 import { useAuth } from '@clerk/clerk-react';
-
-const API_BASE_URL = 'http://localhost:8787/api';
 
 export const useDrillsApi = () => {
   const [drills, setDrills] = useState<Drill[]>([]);
