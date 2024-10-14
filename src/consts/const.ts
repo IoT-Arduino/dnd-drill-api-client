@@ -8,3 +8,4 @@ export const API_BASE_URL = isProd ? 'https://drill-api-app.iot-arduino.workers.
 // const API_BASE_URL = 'https://drill-api-app.iot-arduino.workers.dev/api'
 
 console.log(isProd)
+console.log(API_BASE_URL)
