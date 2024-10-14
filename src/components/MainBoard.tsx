@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState, useEffect } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import { IonToast } from '@ionic/react'
 import { isDesktop } from 'react-device-detect'
 import { IoAlertCircleOutline } from 'react-icons/io5'
@@ -7,12 +7,12 @@ import { ColumnContainer } from './ColumnContainer'
 import styles from './MainBoard.module.scss'
 import { TabHeader } from './utilParts/TabHeader'
 import { Column, DrillContent, Id } from './../types/types'
-import { useStorage } from '../hooks/useStorage'
+// import { useStorage } from '../hooks/useStorage'
 import { useDrillsApi } from '../hooks/useDrillsApi'
 
 // import { useAuth } from '@clerk/clerk-react';
 
-const API_URL = 'http://localhost:8787'; // HonoのAPIサーバーのURL
+// const API_URL = 'http://localhost:8787'; // HonoのAPIサーバーのURL
 
 const PresetColumns: Column[] = [
   {
@@ -53,7 +53,7 @@ export const MainBoard = () => {
   // storage related
   const {
     drills,
-    drillHistory,
+    // drillHistory,
     isLoading,
     error,
     submitButtonEnabled,
@@ -65,8 +65,8 @@ export const MainBoard = () => {
     updateDrillStatusOnApi,
     moveDrillsOnSubmit,
     saveTodaysDrill,
-    fetchDrills,
-    fetchHistory
+    // fetchDrills,
+    // fetchHistory
   } = useDrillsApi();
 
 
