@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState, useEffect } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import { IonToast } from '@ionic/react'
 import { isDesktop } from 'react-device-detect'
 import { IoAlertCircleOutline } from 'react-icons/io5'
@@ -29,26 +29,6 @@ export const MainBoard = () => {
   const [columns] = useState<Column[]>(PresetColumns)
   const [isToastOpen, setIsTostOpen] = useState(false)
 
-// API related code -- fetch code sample from component --
-// const { getToken } = useAuth();
-
-// useEffect(() => {
-//   const fetchData = async () => {
-//     const response = await fetch(`${API_BASE_URL}/drills`, {
-//       method:"GET",
-//       mode: 'cors',
-//       headers: {
-//         'Authorization': `Bearer ${await getToken()}`,
-//         'content-type': 'application/json'
-//       },
-//       credentials: "same-origin"         
-//     });
-//     const data = await response.json();
-//     console.log("data",data)
-//   }
-//   fetchData();
-// }, []);
-
   // storage related
   const {
     drills,
@@ -67,20 +47,6 @@ export const MainBoard = () => {
     // fetchDrills,
     // fetchHistory
   } = useDrillsApi();
-
-
-  // const {
-  //   drills,
-  //   createDrillOnStorage,
-  //   deleteDrillOnStorage,
-  //   updateDrillOnStorage,
-  //   updateDrillColumnIdOnStorage,
-  //   updateDrillStatusOnStorage,
-  //   moveDrillsOnSubmit,
-  //   submitButtonEnabled,
-  //   setSubmitButtonEnabled,
-  //   saveTodaysDrill
-  // } = useStorage()
 
   const [widthSmall, setWidthSmall] = useState(false)
   useLayoutEffect(() => {
