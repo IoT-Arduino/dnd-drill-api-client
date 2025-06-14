@@ -50,11 +50,15 @@
 - Modal:React bootstrap
 - CSSは、module.scss で記述。
 
-#### データ保存
+#### Backend 
 
-- Ionic/storage (localstorage を拡張したライブラリ)
-- （バックエンド連携は別途対応）
+https://github.com/IoT-Arduino/dnd-drill-api
+- hono
+- Cloudflare workers
+- Cloudflare D1
+- drizzle
+- Clerk
 
 #### Deploy
 
-- netlify
+- Vercel
