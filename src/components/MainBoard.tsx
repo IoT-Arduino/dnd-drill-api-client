@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from 'react'
+import { useLayoutEffect, useState, useEffect } from 'react'
 import { IonToast } from '@ionic/react'
 import { isDesktop } from 'react-device-detect'
 import { IoAlertCircleOutline } from 'react-icons/io5'
@@ -10,9 +10,9 @@ import { Column, DrillContent, Id } from './../types/types'
 // import { useStorage } from '../hooks/useStorage'
 import { useDrillsApi } from '../hooks/useDrillsApi'
 
+// API related code -- fetch code sample from component --
+// import { API_BASE_URL } from '../consts/const'
 // import { useAuth } from '@clerk/clerk-react';
-
-// const API_URL = 'http://localhost:8787'; // HonoのAPIサーバーのURL
 
 const PresetColumns: Column[] = [
   {
@@ -29,26 +29,25 @@ export const MainBoard = () => {
   const [columns] = useState<Column[]>(PresetColumns)
   const [isToastOpen, setIsTostOpen] = useState(false)
 
-  // const [data, setData] = useState(null);
-  // const { getToken } = useAuth();
+// API related code -- fetch code sample from component --
+// const { getToken } = useAuth();
 
-  // API related
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const response = await fetch(`${API_URL}/api/drills`, {
-  //       method:"GET",
-  //       mode: 'cors',
-  //       headers: {
-  //         'Authorization': `Bearer ${await getToken()}`,
-  //         'content-type': 'application/json'
-  //       },
-  //       // credentials: "same-origin" // include, same-origin, omit　 --> コメントアウトしないとCORSエラーになる。        
-  //     });
-  //     const data = await response.json();
-  //     setData(data);
-  //   }
-  //   fetchData();
-  // }, []);
+// useEffect(() => {
+//   const fetchData = async () => {
+//     const response = await fetch(`${API_BASE_URL}/drills`, {
+//       method:"GET",
+//       mode: 'cors',
+//       headers: {
+//         'Authorization': `Bearer ${await getToken()}`,
+//         'content-type': 'application/json'
+//       },
+//       credentials: "same-origin"         
+//     });
+//     const data = await response.json();
+//     console.log("data",data)
+//   }
+//   fetchData();
+// }, []);
 
   // storage related
   const {
